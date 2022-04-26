@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthState } from '../../types';
 
 const initialState: AuthState = {
@@ -8,14 +8,16 @@ const initialState: AuthState = {
 };
 
 export const authSlice = createSlice({
-    name: 'auth',
+    name: 'account',
     initialState,
     reducers: {
-        login: (state, action) => {
-            state.username = action.payload['username'];
+        setAccountState: (state: AuthState, action: PayloadAction<string>) => {
+            state.user = { email: action.payload };
+            state.isLoggedIn = true;
+            state.isInitialized = true;
         },
-        logout: () => initialState
+        clearAccount: () => initialState
     }
 })
 
-export const { login, logout } = userSlice.actions;
+export const { setAccountState, clearAccountState } = authSlice.actions;

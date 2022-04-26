@@ -16,3 +16,9 @@ export interface AuthState {
     isInitialized: boolean;
     user: IUser | null;
 }
+
+export interface LoginPayload {
+    email: string;
+    password: string;
+    remember: boolean;
+}
