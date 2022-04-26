@@ -17,7 +17,7 @@ export interface AuthState {
     user: IUser | null;
 }
 
-export interface LoginPayload {
+export interface LoginProps {
     email: string;
     password: string;
     remember: boolean;
