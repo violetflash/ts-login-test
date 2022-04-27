@@ -3,12 +3,11 @@ import { AuthState, LoginProps } from '../types';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { userCredentials } from '../store/constants';
 import { clearAccountState, setAccountState } from 'store/slices/authSlice';
-import { addUserToLS, getUserFromLS } from '../utils/functions';
+import { addUserToLS, deleteUserFromLS, getUserFromLS } from '../utils/functions';
 import { RootState } from '../store';
 
 const initialState: AuthState = {
     isLoggedIn: false,
-    isInitialized: false,
     user: null
 };
 
@@ -26,7 +25,6 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
     const login = ({ remember, email, password }: LoginProps): Promise<void> => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                console.log('here!');
                 if (email === userCredentials.email && password === userCredentials.password) {
                     dispatch(setAccountState(email));
                     if (remember) {
@@ -34,7 +32,6 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
                     }
                     resolve();
                 } else {
-                    console.log('error case!');
                     reject();
                 }
             }, 1000);
@@ -43,6 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
 
     const logout = () => {
         dispatch(clearAccountState());
+        deleteUserFromLS();
     };
 
     const checkAuthentication = async (): Promise<void> => {

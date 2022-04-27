@@ -1,5 +1,6 @@
 import { SxProps } from '@mui/material';
 import { ReactElement } from 'react';
+import { IAccountUser } from '../models/IAccountUser';
 import { IUser } from '../models/IUser';
 
 export type GuardProps = {
@@ -13,8 +14,11 @@ export interface AuthWrapperProps {
 
 export interface AuthState {
     isLoggedIn: boolean;
-    isInitialized: boolean;
-    user: IUser | null;
+    user: IAccountUser | null;
+}
+
+export interface UsersState {
+    users: IUser[];
 }
 
 export interface LoginProps {

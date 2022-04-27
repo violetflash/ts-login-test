@@ -1,6 +1,6 @@
 import { AuthGuard } from '../utils/routeGuard/AuthGuard';
 import { Outlet } from 'react-router-dom';
-import Users from '../views/Users';
+import MainPage from '../views/MainPage';
 
 const MainRoutes = {
     path: '/',
@@ -12,7 +12,7 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <Users />
+            element: <MainPage />
         }
     ]
 };

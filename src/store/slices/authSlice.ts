@@ -3,7 +3,6 @@ import { AuthState } from '../../types';
 
 const initialState: AuthState = {
     isLoggedIn: false,
-    isInitialized: false,
     user: null
 };
 
@@ -14,7 +13,6 @@ export const authSlice = createSlice({
         setAccountState: (state: AuthState, action: PayloadAction<string>) => {
             state.user = { email: action.payload };
             state.isLoggedIn = true;
-            state.isInitialized = true;
         },
         clearAccountState: () => initialState
     }

@@ -35,9 +35,7 @@ const Login = () => {
         startSubmitting();
 
         login({ email, password, remember: save })
-            .then(() => {
-                console.log('success');
-            })
+            .then(() => {})
             .catch(() => {
                 setError('The provided credentials are invalid');
                 cancelSubmitting();
