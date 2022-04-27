@@ -18,7 +18,7 @@ export interface AuthState {
 }
 
 export interface LoginProps {
-    email: string;
-    password: string;
+    email: FormDataEntryValue;
+    password: FormDataEntryValue;
     remember: boolean;
 }

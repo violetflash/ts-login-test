@@ -1,4 +1,4 @@
-import { AuthGuard } from '../ui-components/routeGuard/AuthGuard';
+import { AuthGuard } from '../utils/routeGuard/AuthGuard';
 import { Outlet } from 'react-router-dom';
 import Users from '../views/Users';
 

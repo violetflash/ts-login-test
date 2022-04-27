@@ -18,6 +18,6 @@ export const authSlice = createSlice({
         },
         clearAccountState: () => initialState
     }
-})
+});
 
 export const { setAccountState, clearAccountState } = authSlice.actions;

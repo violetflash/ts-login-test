@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 // project imports
 import { GuardProps } from 'types';
+import useAuth from '../../hooks/useAuth';
 
 const GuestGuard: FC<GuardProps> = ({ children }) => {
-    const isLoggedIn = false;
+    const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {

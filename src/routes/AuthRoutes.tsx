@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import NavMotion from '../ui-components/animations/NavMotion';
-import GuestGuard from '../ui-components/routeGuard/GuestGuard';
+import GuestGuard from '../utils/routeGuard/GuestGuard';
 import Login from '../views/Login';
 import ForgotPassword from '../views/ForgotPassword';
 
