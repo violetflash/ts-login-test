@@ -5,7 +5,8 @@ import { addUsersToLS, deleteDataFromLS, findUserIndexById, getDataFromLS } from
 import { LS_USERS_KEY } from '../constants';
 
 const initialState: UsersState = {
-    users: []
+    users: [],
+    searchTerm: ''
 };
 
 export const usersSlice = createSlice({
@@ -39,8 +40,11 @@ export const usersSlice = createSlice({
         deleteAllUsers: () => {
             deleteDataFromLS(LS_USERS_KEY);
             return initialState;
+        },
+        setSearchTerm: (state: UsersState, action: PayloadAction<string>) => {
+            state.searchTerm = action.payload;
         }
     }
 });
 
-export const { setUsers, updateUser, createNewUser, deleteAllUsers, deleteUser } = usersSlice.actions;
+export const { setUsers, updateUser, createNewUser, deleteAllUsers, deleteUser, setSearchTerm } = usersSlice.actions;

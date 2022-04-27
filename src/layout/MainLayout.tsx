@@ -36,6 +36,7 @@ const MainLayout = () => {
                         <Button
                             onClick={logout}
                             variant="outlined"
+                            size="small"
                             sx={{
                                 color: theme.palette.getContrastText(theme.palette.primary.main),
                                 borderColor: theme.palette.getContrastText(theme.palette.primary.main),

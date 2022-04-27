@@ -86,7 +86,7 @@ const UserDialog = ({ user, closeDialog, matchSm, isInEditUserMode, startEditUse
             </DialogTitle>
             <Divider />
             {/* =============== APPOINTMENT CARD CONTENT =====================  */}
-            <DialogContent sx={{ p: '32px 0', backgroundColor: theme.palette.grey.A200 }}>
+            <DialogContent sx={{ p: '32px 0' }}>
                 <Grid container spacing={2} alignItems="center" sx={{ p: matchSm ? '0 16px' : '0 32px' }}>
                     {isInEditUserMode ? (
                         <UserForm error={error} setError={setError} matchSm={matchSm} name={name} setName={setName} />
@@ -96,7 +96,7 @@ const UserDialog = ({ user, closeDialog, matchSm, isInEditUserMode, startEditUse
                 </Grid>
             </DialogContent>
             {isInEditUserMode && (
-                <DialogActions sx={{ p: 2, backgroundColor: theme.palette.grey['300'] }}>
+                <DialogActions sx={{ p: 2, backgroundColor: theme.palette.grey['200'] }}>
                     <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={2} sx={{ width: '100%' }}>
                         <Button variant="contained" color="success" onClick={handleSubmit} sx={{ marginLeft: user ? undefined : 'auto' }}>
                             {user ? 'Update' : 'Create'}

@@ -19,6 +19,7 @@ export interface AuthState {
 
 export interface UsersState {
     users: IUser[];
+    searchTerm: string;
 }
 
 export interface LoginProps {
