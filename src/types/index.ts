@@ -1,5 +1,5 @@
 import { SxProps } from '@mui/material';
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { IAccountUser } from '../models/IAccountUser';
 import { IUser } from '../models/IUser';
 
@@ -25,4 +25,16 @@ export interface LoginProps {
     email: FormDataEntryValue;
     password: FormDataEntryValue;
     remember: boolean;
+}
+
+export interface ConfirmDialogData {
+    onConfirm?: () => void;
+    onClose?: () => void;
+    text: React.ReactNode;
+    confirmText?: string;
+}
+
+export interface ConfirmDialogProps {
+    isOpened: boolean;
+    confirmData: ConfirmDialogData;
 }

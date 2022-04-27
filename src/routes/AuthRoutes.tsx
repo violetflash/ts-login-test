@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import NavMotion from '../ui-components/animations/NavMotion';
 import GuestGuard from '../utils/routeGuard/GuestGuard';
-import Login from '../views/Login';
+import LoginPage from '../views/LoginPage';
 import ForgotPassword from '../views/ForgotPassword';
 
 const AuthRoutes = [
@@ -18,7 +18,7 @@ const AuthRoutes = [
                 element: (
                     <NavMotion>
                         <GuestGuard>
-                            <Login />
+                            <LoginPage />
                         </GuestGuard>
                     </NavMotion>
                 )

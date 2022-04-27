@@ -1,9 +1,9 @@
 import { createContext, ReactElement, useEffect } from 'react';
 import { AuthState, LoginProps } from '../types';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { userCredentials } from '../store/constants';
+import { LS_ACCOUNT_KEY, userCredentials } from '../store/constants';
 import { clearAccountState, setAccountState } from 'store/slices/authSlice';
-import { addUserToLS, deleteUserFromLS, getUserFromLS } from '../utils/functions';
+import { addAccountToLS, deleteDataFromLS, getDataFromLS } from '../utils/functions';
 import { RootState } from '../store';
 
 const initialState: AuthState = {
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
                 if (email === userCredentials.email && password === userCredentials.password) {
                     dispatch(setAccountState(email));
                     if (remember) {
-                        addUserToLS(email);
+                        addAccountToLS(email);
                     }
                     resolve();
                 } else {
@@ -40,11 +40,11 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
 
     const logout = () => {
         dispatch(clearAccountState());
-        deleteUserFromLS();
+        deleteDataFromLS(LS_ACCOUNT_KEY);
     };
 
     const checkAuthentication = async (): Promise<void> => {
-        const email = getUserFromLS();
+        const email = getDataFromLS(LS_ACCOUNT_KEY);
         if (email) {
             const rawEmail = email.replace(/"/g, '');
             dispatch(setAccountState(rawEmail));

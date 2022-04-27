@@ -1,13 +1,11 @@
-import { LS_USER_KEY } from 'store/constants';
+import { LS_ACCOUNT_KEY, LS_USERS_KEY } from 'store/constants';
 import { IUser } from '../models/IUser';
 
-export const addUserToLS = (email: string) => localStorage.setItem(LS_USER_KEY, JSON.stringify(email));
-
-export const checkIsLoggedIn = () => localStorage.getItem(LS_USER_KEY);
-
-export const getUserFromLS = () => JSON.parse(JSON.stringify(localStorage.getItem(LS_USER_KEY)));
-
-export const deleteUserFromLS = () => localStorage.removeItem(LS_USER_KEY);
+export const addAccountToLS = (email: string) => localStorage.setItem(LS_ACCOUNT_KEY, JSON.stringify(email));
+export const checkIsLoggedIn = () => localStorage.getItem(LS_ACCOUNT_KEY);
+export const deleteDataFromLS = (key: string) => localStorage.removeItem(key);
+export const addUsersToLS = (users: IUser[]) => localStorage.setItem(LS_USERS_KEY, JSON.stringify(users));
+export const getDataFromLS = (key: string) => JSON.parse(localStorage.getItem(key)!);
 
 export const stringToColor = (string: string) => {
     let hash = 0;
@@ -29,4 +27,4 @@ export const stringToColor = (string: string) => {
     return color;
 };
 
-export const findUserIndexById = (id: number, data: IUser[]) => data.findIndex((user) => user.id === id);
+export const findUserIndexById = (id: IUser['id'], data: IUser[]) => data.findIndex((user) => user.id === id);

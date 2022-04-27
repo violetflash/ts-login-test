@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { UsersState } from '../../types';
 import { IUser } from '../../models/IUser';
-import { findUserIndexById } from '../../utils/functions';
+import { addUsersToLS, deleteDataFromLS, findUserIndexById, getDataFromLS } from '../../utils/functions';
+import { LS_USERS_KEY } from '../constants';
 
 const initialState: UsersState = {
     users: []
@@ -13,19 +14,32 @@ export const usersSlice = createSlice({
     reducers: {
         setUsers: (state: UsersState, action: PayloadAction<IUser[]>) => {
             state.users = action.payload;
+            addUsersToLS(action.payload);
         },
-        deleteUser: (state: UsersState, action: PayloadAction<number>) => {
-            const userIndex = findUserIndexById(action.payload, state.users);
-            state.users.splice(userIndex, 1);
+        deleteUser: (state: UsersState, action: PayloadAction<IUser['id']>) => {
+            const users = getDataFromLS(LS_USERS_KEY);
+            const userIndex = findUserIndexById(action.payload, users);
+            users.splice(userIndex, 1);
+            state.users = users;
+            addUsersToLS(users);
         },
         updateUser: (state: UsersState, action: PayloadAction<IUser>) => {
-            const userIndex = findUserIndexById(action.payload.id, state.users);
-            state.users[userIndex] = { ...action.payload };
+            const users = getDataFromLS(LS_USERS_KEY);
+            const userIndex = findUserIndexById(action.payload.id, users);
+            users[userIndex] = { ...action.payload };
+            state.users = users;
+            addUsersToLS(users);
         },
         createNewUser: (state: UsersState, action: PayloadAction<IUser>) => {
-            state.users.push(action.payload);
+            const users = getDataFromLS(LS_USERS_KEY);
+            users.push({ ...action.payload, id: nanoid() });
+            state.users = users;
+            addUsersToLS(users);
         },
-        deleteAllUsers: () => initialState
+        deleteAllUsers: () => {
+            deleteDataFromLS(LS_USERS_KEY);
+            return initialState;
+        }
     }
 });
 

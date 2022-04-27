@@ -14,42 +14,62 @@ import {
     useMediaQuery,
     useTheme
 } from '@mui/material';
-import { Add, Delete, Edit } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { Add, Delete } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { setUsers, deleteUser } from 'store/slices/usersSlice';
 import useBoolean from '../hooks/useBoolean';
 import UserDialog from './user-card/UserDialog';
+import NavMotion from '../ui-components/animations/NavMotion';
+import { openConfirmDialog } from '../store/slices/confirmDialogSlice';
+import { getDataFromLS } from '../utils/functions';
+import { LS_USERS_KEY } from '../store/constants';
 
 export const UserList = () => {
     const theme = useTheme();
     const dispatch = useAppDispatch();
-    const { data, isLoading } = useFetchUsersQuery(null);
+    const [skip, setSkip] = useState(true);
     const { users } = useAppSelector((state) => state.users);
     const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
     const { value: isUserOpened, on: openUser, off: closeUser } = useBoolean();
     const { value: isInEditUserMode, on: startEditUser, off: stopEditUser } = useBoolean();
+    const { data, isLoading } = useFetchUsersQuery(null, { skip });
 
     const matchSm = useMediaQuery((themeParam: Theme) => themeParam.breakpoints.down('sm'));
 
     useEffect(() => {
+        const usersFromLS = getDataFromLS(LS_USERS_KEY);
+        if (usersFromLS && usersFromLS.length > 0) {
+            dispatch(setUsers(usersFromLS));
+            return;
+        }
+        setSkip(false);
+    }, []);
+    useEffect(() => {
         // reset
-        if (data && !users.length) {
+        if (data) {
             dispatch(setUsers(data));
         }
     }, [data]);
 
-    const handleDeleteUser = (id: number) => {
+    const handleDeleteUser = (id: IUser['id']) => {
         dispatch(deleteUser(id));
-    };
-
-    const handleEditUser = (user: IUser) => {
-        setSelectedUser(user);
     };
 
     const handleOpenUser = (user: IUser) => {
         setSelectedUser(user);
         openUser();
+    };
+
+    const confirmDelete = (e: React.MouseEvent<HTMLButtonElement>, user: IUser) => {
+        e.stopPropagation();
+        dispatch(
+            openConfirmDialog({
+                onConfirm: () => handleDeleteUser(user.id),
+                confirmText: `Delete`,
+                text: `Are you sure you want to delete ${user.name} ?`
+            })
+        );
     };
 
     const handleCloseUserDialog = () => {
@@ -78,27 +98,29 @@ export const UserList = () => {
                 )}
                 {!isLoading &&
                     users &&
-                    users.map((user: IUser) => (
-                        <ListItem
-                            key={user.id}
-                            onClick={() => handleOpenUser(user)}
-                            sx={{
-                                justifyContent: 'space-between',
-                                '&: hover': {
-                                    backgroundColor: theme.palette.grey.A200
-                                }
-                            }}
-                        >
-                            <Typography>{user.name}</Typography>
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                                <IconButton onClick={() => handleEditUser(user)}>
-                                    <Edit />
-                                </IconButton>
-                                <IconButton onClick={() => handleDeleteUser(user.id)}>
-                                    <Delete />
-                                </IconButton>
-                            </Stack>
-                        </ListItem>
+                    users.map((user: IUser, index: number) => (
+                        <NavMotion key={user.id}>
+                            <ListItem
+                                onClick={() => handleOpenUser(user)}
+                                sx={{
+                                    cursor: 'pointer',
+                                    justifyContent: 'space-between',
+                                    '&: hover': {
+                                        backgroundColor: theme.palette.grey.A200
+                                    }
+                                }}
+                            >
+                                <Stack direction="row" alignItems="center" spacing={1}>
+                                    <Typography>{index + 1})</Typography>
+                                    <Typography>{user.name}</Typography>
+                                </Stack>
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                    <IconButton onClick={(e) => confirmDelete(e, user)}>
+                                        <Delete />
+                                    </IconButton>
+                                </Stack>
+                            </ListItem>
+                        </NavMotion>
                     ))}
             </List>
             <Dialog

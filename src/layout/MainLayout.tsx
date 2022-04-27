@@ -1,11 +1,12 @@
 import { AppBar, Avatar, Button, Stack, styled, Toolbar, Typography, useTheme } from '@mui/material';
 import { stringToColor } from 'utils/functions';
 import useAuth from '../hooks/useAuth';
-import { UserList } from './UserList';
+import { Outlet } from 'react-router-dom';
+import ConfirmDialog from '../ui-components/ConfirmDialog';
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
-const MainPage = () => {
+const MainLayout = () => {
     const theme = useTheme();
     const { user, logout } = useAuth();
     return (
@@ -50,9 +51,10 @@ const MainPage = () => {
                 </Toolbar>
             </AppBar>
             <Offset />
-            <UserList />
+            <ConfirmDialog />
+            <Outlet />
         </>
     );
 };
 
-export default MainPage;
+export default MainLayout;

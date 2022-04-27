@@ -4,6 +4,8 @@ import { Button, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconB
 import { ArrowBack } from '@mui/icons-material';
 import UserForm from './UserForm';
 import UserInfo from './UserInfo';
+import { useAppDispatch } from '../../hooks/redux';
+import { createNewUser, updateUser } from '../../store/slices/usersSlice';
 
 interface EditUserDialogProps {
     user: IUser | null;
@@ -15,6 +17,7 @@ interface EditUserDialogProps {
 }
 
 const UserDialog = ({ user, closeDialog, matchSm, isInEditUserMode, startEditUser, stopEditUser }: EditUserDialogProps) => {
+    const dispatch = useAppDispatch();
     const theme = useTheme();
     const [name, setName] = useState<string | undefined>(user?.name);
     const [error, setError] = useState<string | null>(null);
@@ -22,15 +25,22 @@ const UserDialog = ({ user, closeDialog, matchSm, isInEditUserMode, startEditUse
     const handleSubmit = () => {
         if (!name) {
             setError('Name is required!');
-            console.log(error);
             return;
         }
+        if (user) {
+            dispatch(updateUser({ ...user, name }));
+            closeDialog();
+            return;
+        }
+        dispatch(createNewUser({ name } as IUser));
+        closeDialog();
     };
 
     const handleReturn = () => {
         stopEditUser();
         if (user) {
             setName(user.name);
+            setError(null);
         }
     };
 
@@ -39,8 +49,6 @@ const UserDialog = ({ user, closeDialog, matchSm, isInEditUserMode, startEditUse
             setName(user.name);
         }
     }, [user]);
-
-    console.log(user);
 
     return (
         <>
@@ -87,15 +95,15 @@ const UserDialog = ({ user, closeDialog, matchSm, isInEditUserMode, startEditUse
                     )}
                 </Grid>
             </DialogContent>
-            <DialogActions sx={{ p: 2, backgroundColor: theme.palette.grey['300'] }}>
-                {isInEditUserMode && (
-                    <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} sx={{ width: '100%' }}>
+            {isInEditUserMode && (
+                <DialogActions sx={{ p: 2, backgroundColor: theme.palette.grey['300'] }}>
+                    <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={2} sx={{ width: '100%' }}>
                         <Button variant="contained" color="success" onClick={handleSubmit} sx={{ marginLeft: user ? undefined : 'auto' }}>
                             {user ? 'Update' : 'Create'}
                         </Button>
                     </Stack>
-                )}
-            </DialogActions>
+                </DialogActions>
+            )}
         </>
     );
 };

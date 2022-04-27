@@ -1,18 +1,18 @@
 import { AuthGuard } from '../utils/routeGuard/AuthGuard';
-import { Outlet } from 'react-router-dom';
-import MainPage from '../views/MainPage';
+import MainLayout from '../layout/MainLayout';
+import { UserList } from '../views/UserList';
 
 const MainRoutes = {
     path: '/',
     element: (
         <AuthGuard>
-            <Outlet />
+            <MainLayout />
         </AuthGuard>
     ),
     children: [
         {
-            path: '/',
-            element: <MainPage />
+            path: '/users',
+            element: <UserList />
         }
     ]
 };

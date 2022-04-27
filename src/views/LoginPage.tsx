@@ -12,7 +12,7 @@ import useBoolean from '../hooks/useBoolean';
 import useAuth from '../hooks/useAuth';
 import useToggle from '../hooks/useToggle';
 
-const Login = () => {
+const LoginPage = () => {
     const { login } = useAuth();
     const { value: isSubmitting, on: startSubmitting, off: cancelSubmitting } = useBoolean();
     const [error, setError] = useState<string | null>(null);
@@ -41,8 +41,6 @@ const Login = () => {
                 cancelSubmitting();
             });
     };
-
-    console.log(save);
 
     return (
         <AuthWrapper>
@@ -81,4 +79,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginPage;

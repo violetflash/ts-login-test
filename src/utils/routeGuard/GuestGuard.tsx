@@ -11,7 +11,7 @@ const GuestGuard: FC<GuardProps> = ({ children }) => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            navigate('/', { replace: true });
+            navigate('/users', { replace: true });
         }
     }, [isLoggedIn, navigate]);
 
