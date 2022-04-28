@@ -100,7 +100,7 @@ export const UserList = () => {
                 </Button>
             </Stack>
             <Divider />
-            <List>
+            <List sx={{ '& > div:last-of-type > li': { border: 'none' }, pt: 0 }}>
                 {isLoading && (
                     <Box sx={{ mx: 'auto', mt: 1, width: 200 }}>
                         <CircularProgress />
@@ -119,7 +119,9 @@ export const UserList = () => {
                                         justifyContent: 'space-between',
                                         '&: hover': {
                                             backgroundColor: theme.palette.grey.A200
-                                        }
+                                        },
+                                        borderBottom: '1px solid',
+                                        borderColor: theme.palette.grey.A400
                                     }}
                                 >
                                     <Stack direction="row" alignItems="center" spacing={1}>
